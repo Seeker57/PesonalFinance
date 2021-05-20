@@ -9,5 +9,6 @@ public interface BankTransactionClient {
     public Date getDate();
     public String getCounterparty();
     public Group getGroup();
+    public BankAccountClient getAccount();
     public String toString();
 }

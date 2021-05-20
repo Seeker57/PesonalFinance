@@ -40,7 +40,7 @@ public class Budget implements BudgetClient {
 
     public void transferBetweenAccount(BigDecimal amount, int accPosFrom, int accPosTo) {
         accounts.get(accPosFrom).changeBalance(amount.negate());
-        accounts.get(accPosTo).changeBalance(amount.negate());
+        accounts.get(accPosTo).changeBalance(amount);
     }
 
     public String toString() {

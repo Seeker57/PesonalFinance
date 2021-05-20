@@ -14,16 +14,23 @@ public class GroupManagment implements GroupManagmentClient {
         this.groupRepo = groupRepo;
     }
 
-    public void createGroup (GroupCreator creator) {
+    public Group createGroup (GroupCreator creator) {
         Group newGroup = creator.createGroup();
         groupList.add(newGroup);
         groupRepo.save(newGroup);
+        return newGroup;
+    }
+
+    public Group getGroup(int pos) {
+        return groupList.get(pos);
     }
 
     public String toString() {
-        String info = "Доступные категории:";
-        info += groupList.stream().map(Group::toString)
-            .reduce("", (x, y) -> String.format("%s\n - %s", x, y));
+        int pos = 1;
+        String info = "Доступные категории:\n";
+        for (var group : groupList) {
+            info += String.format("%d) %s\n", pos++, group.toString());
+        }
         return info;
     }
 }

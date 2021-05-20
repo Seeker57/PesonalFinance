@@ -2,19 +2,27 @@ package services;
 
 import models.Group;
 import models.Category;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 // класс для создания категорий
 public class CategoryCreator extends GroupCreator {
     @Override
     public Group factoryMethod() {
-        String name, description;
-        Scanner scanner = new Scanner(System.in);
+        String name = "", description = "";
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        name = scanner.nextLine();
-        description = scanner.nextLine();
+        try {
+            System.out.print("Введите название категории: ");
+            name = reader.readLine();
+            System.out.print("Введите описание категории: ");
+            description = reader.readLine();
+        }
+        catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
 
-        scanner.close();
         return new Category(name, description);
     }
 }

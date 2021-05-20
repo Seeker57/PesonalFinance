@@ -1,6 +1,9 @@
 package services;
 
+import models.Group;
+
 public interface GroupManagmentClient {
-    public void createGroup(GroupCreator creator);
+    public Group createGroup(GroupCreator creator);
+    public Group getGroup(int pos);
     public String toString();
 }

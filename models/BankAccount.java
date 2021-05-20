@@ -32,7 +32,7 @@ public class BankAccount implements BankAccountClient {
     }
 
     public String toString() {
-        return String.format("Cчёт №%ld в банке %s, владелец: %s, действителен до %s, остаток на счету: %d", 
-            number, nameOfBank, owner, validUntil, balance);
+        return String.format("Cчёт №%d в банке %s, владелец: %s, действителен до %s, остаток на счету: %s", 
+            number, nameOfBank, owner, validUntil, balance.toString());
     }
 }
