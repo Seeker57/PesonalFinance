@@ -3,15 +3,20 @@ package services.repositories;
 import java.util.List;
 import models.BankAccountClient;
 
-// файловое хранилище для групп транзакций
+// файловое хранилище для банковских аккаунтов
 public class FileRepoAccount extends FileRepository<BankAccountClient> {
 
-    FileRepoAccount(String fileName) {
+    public FileRepoAccount(String fileName) {
         super(fileName);
     }
 
     @Override
     public boolean save(BankAccountClient account) {
+        return true;
+    }
+
+    @Override
+    public boolean delete(int id) {
         return true;
     }
 

@@ -6,12 +6,17 @@ import models.Group;
 // файловое хранилище для групп транзакций
 public class FileRepoGroup extends FileRepository<Group> {
 
-    FileRepoGroup(String fileName) {
+    public FileRepoGroup(String fileName) {
         super(fileName);
     }
 
     @Override
     public boolean save(Group group) {
+        return true;
+    }
+
+    @Override
+    public boolean delete(int id) {
         return true;
     }
 

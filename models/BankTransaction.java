@@ -10,7 +10,7 @@ public class BankTransaction implements BankTransactionClient {
     private String counterparty; // контрагент - одна из сторон договора о транзакции 
     private Group group;    
 
-    BankTransaction(BigDecimal amount, Date date, String counterparty, Group group) {
+    public BankTransaction(BigDecimal amount, Date date, String counterparty, Group group) {
         this.amount = amount;
         this.date = date;
         this.counterparty = counterparty;

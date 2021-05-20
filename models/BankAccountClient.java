@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 public interface BankAccountClient {
     BigDecimal getBalance();
     long getNumber();
-    void changeBalance(BankTransactionClient transaction);
+    void changeBalance(BigDecimal amount);
     String toString();
 }

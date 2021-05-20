@@ -11,7 +11,7 @@ public class BankAccount implements BankAccountClient {
     private String nameOfBank;
     private BigDecimal balance;
 
-    BankAccount(long number, String owner, Date validUntil, String nameOfBank, BigDecimal balance) {
+    public BankAccount(long number, String owner, Date validUntil, String nameOfBank, BigDecimal balance) {
         this.number = number;
         this.owner = owner;
         this.validUntil = validUntil;
@@ -27,8 +27,8 @@ public class BankAccount implements BankAccountClient {
         return number;
     }
 
-    public void changeBalance(BankTransactionClient transaction) {
-        balance = balance.add(transaction.getAmount());
+    public void changeBalance(BigDecimal amount) {
+        balance = balance.add(amount);
     }
 
     public String toString() {
