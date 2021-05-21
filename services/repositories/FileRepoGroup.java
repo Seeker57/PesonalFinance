@@ -1,6 +1,11 @@
 package services.repositories;
 
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.List;
+
+import models.Category;
 import models.Group;
 
 // файловое хранилище для групп транзакций
@@ -11,13 +16,14 @@ public class FileRepoGroup extends FileRepository<Group> {
     }
 
     @Override
-    public boolean save(Group group) {
-        return true;
+    public void save(Group group) {
+        String saveInfo = String.format("{\n\tGroup: %s,\n\tdescription: %s,\n}\n", 
+            group.getName(), group.getDescription());
+        writeInFile(saveInfo);
     }
 
     @Override
-    public boolean delete(int id) {
-        return true;
+    public void delete(int id) {
     }
 
     @Override
@@ -27,6 +33,30 @@ public class FileRepoGroup extends FileRepository<Group> {
 
     @Override
     public List<Group> getAll() {
+        try {
+            RandomAccessFile cursor = getCursor();
+            cursor.seek(0);
+            List<Group> groups = new ArrayList<>();
+
+            while (cursor.getFilePointer() != cursor.length()) {
+                String strFile = cursor.readLine();
+
+                if (strFile.equals("{")) {
+                    String name = cursor.readLine();
+                    name = name.substring(name.indexOf(':') + 2, name.length() - 1);
+                    String description = cursor.readLine();
+                    description = description.substring(description.indexOf(':') + 2, description.length() - 1);
+                    groups.add(new Category(name, description));
+                }
+                cursor.readLine();
+            }
+
+            System.out.println(groups);
+            return groups;
+        }
+        catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
         return null;
     }
 }

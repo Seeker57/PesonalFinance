@@ -89,7 +89,7 @@ public class ConsoleUI {
 
     public void transactionLogMenu(TransactionLogClient log, BudgetClient budget) throws IOException {
         String logMenu = "\n1) Посмотреть все транзакции\n2) Добавить транзакцию\n" +
-            "3) Удалить транзакцию\n4) Поиск транзакций\n5) Вернуться к меню бюдета";
+            "3) Удалить транзакцию\n4) Поиск транзакций\n5) Вернуться к меню бюджета";
         System.out.println(logMenu);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

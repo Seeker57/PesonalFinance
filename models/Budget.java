@@ -24,6 +24,7 @@ public class Budget implements BudgetClient {
         this.accounts = new ArrayList<>();
         this.transactionLog = transactionLog;
         this.accountRepo = accountRepo;
+        accountRepo.connect();
     }
 
     public void addAccount() {
@@ -39,7 +40,7 @@ public class Budget implements BudgetClient {
             System.out.print("Введите дату, до которой действителен счёт: ");
             String strDate = reader.readLine();
 
-            BankAccountClient newAccount = new BankAccount(num, owner, new Date(strDate), nameOfBank);
+            BankAccountClient newAccount = new BankAccount(name, num, owner, new Date(strDate), nameOfBank);
             accountRepo.save(newAccount);
             accounts.add(newAccount);
         }
@@ -52,6 +53,10 @@ public class Budget implements BudgetClient {
         return hashPin;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String seeBalance(int accountPos) {
         return "Баланс счётa: " + accounts.get(accountPos).getBalance().toString();
     }
@@ -62,6 +67,10 @@ public class Budget implements BudgetClient {
 
     public BankAccountClient getBankAccount(int accountPos) {
         return accounts.get(accountPos);
+    }
+
+    public int howAccounts() {
+        return accounts.size();
     }
 
     public void transferBetweenAccount() {

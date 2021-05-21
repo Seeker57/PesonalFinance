@@ -21,15 +21,15 @@ public class PersonalFinance implements PersonalFinanceClient {
     private List<BudgetClient> budgets;
     private Repository budgetRepo;
 
-    private final String FILE_GROUPS = "groups.txt";
-    private final String FILE_BUDGETS = "budgets.txt";
-    private final String FILE_ACCOUTNS = "accounts.txt";
-    private final String FILE_TRANSACTIONS = "transactions.txt";
-
+    private final String FILE_GROUPS = "data\\groups.txt";
+    private final String FILE_BUDGETS = "data\\budgets.txt";
+    private final String FILE_ACCOUTNS = "data\\accounts.txt";
+    private final String FILE_TRANSACTIONS = "data\\transactions.txt";
 
     public PersonalFinance() {
         this.budgets = new ArrayList<>();
         this.budgetRepo = new FileRepoBudget(FILE_BUDGETS);
+        budgetRepo.connect();
     }
 
     public void createBudget() {

@@ -1,17 +1,20 @@
 package models;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 // конкретный класс банковского счет, реализующий наш интерфейс
 public class BankAccount implements BankAccountClient {
+    private String budgetName;
     private String number;
     private String owner;
     private Date validUntil;
     private String nameOfBank;
     private BigDecimal balance;
 
-    public BankAccount(String number, String owner, Date validUntil, String nameOfBank) {
+    public BankAccount(String budgetName,String number, String owner, Date validUntil, String nameOfBank) {
+        this.budgetName = budgetName;
         this.number = number;
         this.owner = owner;
         this.validUntil = validUntil;
@@ -27,12 +30,29 @@ public class BankAccount implements BankAccountClient {
         return number;
     }
 
+    public String getBudgetName() {
+        return budgetName;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public Date getValidDate() {
+        return validUntil;
+    }
+
+    public String getNameOfBank() {
+        return nameOfBank;
+    }
+
     public void changeBalance(BigDecimal amount) {
         balance = balance.add(amount);
     }
 
     public String toString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYYY");
         return String.format("Cчёт №%s в банке %s, владелец: %s, действителен до %s, остаток на счету: %s", 
-            number, nameOfBank, owner, validUntil, balance.toString());
+            number, nameOfBank, owner, formatter.format(validUntil), balance.toString());
     }
 }

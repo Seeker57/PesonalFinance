@@ -10,8 +10,9 @@ public class GroupManagment implements GroupManagmentClient {
     private Repository groupRepo;
 
     public GroupManagment(Repository groupRepo) {
-        this.groupList = new ArrayList<>();
         this.groupRepo = groupRepo;
+        groupRepo.connect();
+        this.groupList = groupRepo.getAll();
     }
 
     public Group createGroup (GroupCreator creator) {

@@ -1,5 +1,7 @@
 package services.repositories;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import models.BudgetClient;
 
@@ -11,13 +13,13 @@ public class FileRepoBudget extends FileRepository<BudgetClient> {
     }
 
     @Override
-    public boolean save(BudgetClient budget) {
-        return true;
+    public void save(BudgetClient budget) {
+        String saveInfo = String.format("{\n\tBudget: %s,\n\thashPin: %d\n}\n", budget.getName(), budget.getHashPin());
+        writeInFile(saveInfo);
     }
 
     @Override
-    public boolean delete(int id) {
-        return true;
+    public void delete(int id) {
     }
 
     @Override

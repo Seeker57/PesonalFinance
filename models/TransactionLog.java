@@ -23,6 +23,7 @@ public class TransactionLog implements TransactionLogClient {
         this.transactionList = new ArrayList<>();
         this.groupManagment = groupManagment;
         this.transactionRepo = transactionRepo;
+        transactionRepo.connect();
     }
 
     public void createTransaction(BankAccountClient account) {

@@ -11,13 +11,15 @@ public class FileRepoTransaction extends FileRepository<BankTransactionClient> {
     }
 
     @Override
-    public boolean save(BankTransactionClient transaction) {
-        return true;
+    public void save(BankTransactionClient transaction) {
+        String saveInfo = String.format("{\n\tTransaction on account: %s,\n\tamount: %s,\n", transaction.getAccount().getNumber(),
+            transaction.getAmount().toString()) + String.format("\tdate: %s,\n\tcounterparty: %s,\n", transaction.getDate(),
+            transaction.getCounterparty()) + String.format("\tgroup: %s\n}\n", transaction.getGroup().getName());
+        writeInFile(saveInfo);
     }
 
     @Override
-    public boolean delete(int id) {
-        return true;
+    public void delete(int id) {
     }
 
     @Override
