@@ -17,7 +17,7 @@ import services.repositories.FileRepoAccount;
 import services.repositories.FileRepoTransaction;
 
 // класс Персональные финансы, хранящий бюджеты
-public class PersonalFinance {
+public class PersonalFinance implements PersonalFinanceClient {
     private List<BudgetClient> budgets;
     private Repository budgetRepo;
 
@@ -92,20 +92,22 @@ public class PersonalFinance {
                 choosedBudget = budgets.get(budgetPos);
                 if (pin.hashCode() == choosedBudget.getHashPin()) {
                     return choosedBudget;
+                } else {
+                    System.out.println("Неверный пин-код!\n");
                 }
             }
         }
         catch (IOException exception) {
             System.out.println(exception.getMessage());
         }
-        return choosedBudget;
+        return null;
     }
 
     public String toString() {
-        String info = "Бюджеты:\n";
+        String info = "\nБюджеты:\n";
         int pos = 1;
         for (var budget : budgets) {
-            info += String.format("%d) %s\n", pos++, budget.toString());
+            info += String.format("%d) %s", pos++, budget.toString());
         }
         return info;
     }

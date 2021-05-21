@@ -1,18 +1,17 @@
-import models.BankAccount;
-import models.BankAccountClient;
-import models.TransactionLog;
-import models.TransactionLogClient;
-import services.GroupManagment;
-import services.GroupManagmentClient;
-import services.repositories.FileRepoGroup;
-import services.repositories.FileRepoTransaction;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.io.IOException;
+import services.PersonalFinance;
 
 public class MainClass {
     
     public static void main(String[] args) {
 
+        try {
+            ConsoleUI myUI = new ConsoleUI(new PersonalFinance());
+            myUI.mainMenu();
+        }
+        catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 }

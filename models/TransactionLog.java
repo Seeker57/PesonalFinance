@@ -98,7 +98,7 @@ public class TransactionLog implements TransactionLogClient {
     }
 
     public String toString() {
-        String info = "Журнал транзакций:\n";
+        String info = "\nЖурнал транзакций:\n";
         int pos = 1;
         for (var transaction : transactionList) {
             info += String.format("%d) %s\n", pos++, transaction.toString());

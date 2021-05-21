@@ -27,7 +27,7 @@ public class GroupManagment implements GroupManagmentClient {
 
     public String toString() {
         int pos = 1;
-        String info = "Доступные категории:\n";
+        String info = "\nДоступные категории:\n";
         for (var group : groupList) {
             info += String.format("%d) %s\n", pos++, group.toString());
         }

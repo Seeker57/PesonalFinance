@@ -52,8 +52,8 @@ public class Budget implements BudgetClient {
         return hashPin;
     }
 
-    public void seeBalance(int accountPos) {
-        System.out.println("Баланс счёт: " + accounts.get(accountPos).getBalance().toString());
+    public String seeBalance(int accountPos) {
+        return "Баланс счётa: " + accounts.get(accountPos).getBalance().toString();
     }
 
     public TransactionLogClient getTransactionLog() {
@@ -64,15 +64,32 @@ public class Budget implements BudgetClient {
         return accounts.get(accountPos);
     }
 
-    public void transferBetweenAccount(BigDecimal amount, int accPosFrom, int accPosTo) {
-        accounts.get(accPosFrom).changeBalance(amount.negate());
-        accounts.get(accPosTo).changeBalance(amount);
+    public void transferBetweenAccount() {
+        System.out.println(this.toString());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        try {
+            System.out.print("Введите счет снятия: ");
+            int accPosFrom = Integer.parseInt(reader.readLine());
+            System.out.print("Введите счет пополнения: ");
+            int accPosTo = Integer.parseInt(reader.readLine());
+            System.out.print("Введите сумму: ");
+            BigDecimal amount = new BigDecimal(Integer.parseInt(reader.readLine()));
+
+            accounts.get(accPosFrom).changeBalance(amount.negate());
+            accounts.get(accPosTo).changeBalance(amount);
+        }
+        catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     public String toString() {
+        int pos = 1;
         String info = String.format("Бюджет %s, привязанные счета:\n", name);
-        info += accounts.stream().map(BankAccountClient::toString)
-            .reduce("", (x, y) -> String.format("%s\n - %s", x, y));
+        for (var account : accounts) {
+            info += String.format("\t%d) %s\n", pos++, account.toString());
+        }
         return info;
     }
 }

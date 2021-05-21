@@ -40,7 +40,7 @@ public class BankTransaction implements BankTransactionClient {
     }
 
     public String toString() {
-        return String.format("Транзакция на сумму: %+d, совершена: %s, контрагент: %s, категория: %s", 
-            amount.intValue(), date, counterparty, group.getName());
+        return String.format("Транзакция на сумму: %+d, совершена: %s со счёта №%s, контрагент: %s, категория: %s", 
+            amount.intValue(), date, account.getNumber(), counterparty, group.getName());
     }
 }
