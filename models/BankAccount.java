@@ -5,25 +5,25 @@ import java.util.Date;
 
 // конкретный класс банковского счет, реализующий наш интерфейс
 public class BankAccount implements BankAccountClient {
-    private long number;
+    private String number;
     private String owner;
     private Date validUntil;
     private String nameOfBank;
     private BigDecimal balance;
 
-    public BankAccount(long number, String owner, Date validUntil, String nameOfBank, BigDecimal balance) {
+    public BankAccount(String number, String owner, Date validUntil, String nameOfBank) {
         this.number = number;
         this.owner = owner;
         this.validUntil = validUntil;
         this.nameOfBank = nameOfBank;
-        this.balance = balance;
+        this.balance = new BigDecimal(0);
     }
 
     public BigDecimal getBalance() {
         return balance;
     }
 
-    public long getNumber() {
+    public String getNumber() {
         return number;
     }
 

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 // интерфейс Банковского счёта
 public interface BankAccountClient {
     BigDecimal getBalance();
-    long getNumber();
+    String getNumber();
     void changeBalance(BigDecimal amount);
     String toString();
 }
