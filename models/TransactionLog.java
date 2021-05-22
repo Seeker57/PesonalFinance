@@ -17,9 +17,9 @@ import services.transactrionQuery.TransactionQuery;
 public class TransactionLog implements TransactionLogClient {
     private List<BankTransactionClient> transactionList;
     private GroupManagmentClient groupManagment;
-    private Repository transactionRepo;
+    private Repository<BankTransactionClient> transactionRepo;
 
-    public TransactionLog(GroupManagmentClient groupManagment, Repository transactionRepo) {
+    public TransactionLog(GroupManagmentClient groupManagment, Repository<BankTransactionClient> transactionRepo) {
         this.groupManagment = groupManagment;
         this.transactionRepo = transactionRepo;
         transactionRepo.connect();
@@ -31,7 +31,7 @@ public class TransactionLog implements TransactionLogClient {
 
         try {
             System.out.print("Введите сумму: ");
-            int amount = Integer.parseInt(reader.readLine());
+            double amount = Double.parseDouble(reader.readLine());
             System.out.print("Введите дату и время: ");
             String strDate = reader.readLine();
             System.out.print("Введите контрагента: ");
@@ -48,7 +48,7 @@ public class TransactionLog implements TransactionLogClient {
                 newGroup = groupManagment.getGroup(choice - 1);
             }
 
-            BankTransactionClient newTransaction = new BankTransaction(new BigDecimal(amount), 
+            BankTransactionClient newTransaction = new BankTransaction(BigDecimal.valueOf(amount), 
                 new Date(strDate), counterparty, newGroup.getName(), account.getNumber());
 
             account.changeBalance(newTransaction.getAmount());
@@ -103,6 +103,11 @@ public class TransactionLog implements TransactionLogClient {
                 account.changeBalance(transaction.getAmount());
             }
         }
+    }
+
+    public void addTransaction(BankTransactionClient transaction) {
+        transactionList.add(transaction);
+        transactionRepo.save(transaction);
     }
 
     public BankTransactionClient getTransaction(int pos) {

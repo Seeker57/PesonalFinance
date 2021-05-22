@@ -32,10 +32,13 @@ public class ConsoleUI {
 
         switch (choice) {
             case (1):
+                clearScreen();
                 finance.createBudget();
+                clearScreen();
                 mainMenu();
                 break;
             case (2):
+                clearScreen();
                 BudgetClient budget = finance.chooseBudget();
                 if (budget != null) {
                     budgetMenu(budget);
@@ -43,7 +46,9 @@ public class ConsoleUI {
                 mainMenu();
                 break;
             case (3):
+                clearScreen();
                 finance.deleteBudget();
+                clearScreen();
                 mainMenu();
                 break;
             case (4):
@@ -51,11 +56,13 @@ public class ConsoleUI {
                 break;
             default:
                 System.out.println("Неверный ввод!");
+                clearScreen();
                 mainMenu();
         }
     }
 
     public void budgetMenu(BudgetClient budget) throws IOException {
+        clearScreen();
         String budgetMenu = budget.toString();
         budgetMenu += "\n1) Добавить счёт\n2) Посмотреть журнал транзакций\n" + 
             "3) Перевод между счетами\n4) Вернуться в меню бюджетов";
@@ -67,18 +74,22 @@ public class ConsoleUI {
 
         switch (choice) {
             case (1):
+                clearScreen();
                 budget.addAccount();
                 budgetMenu(budget);
                 break;
             case (2):
+                clearScreen();
                 transactionLogMenu(budget.getTransactionLog(), budget);
                 budgetMenu(budget);
                 break;
             case (3):
+                clearScreen();
                 budget.transferBetweenAccount();
                 budgetMenu(budget);
                 break;
             case (4):
+                clearScreen();
                 mainMenu();
                 break;
             default:
@@ -98,21 +109,27 @@ public class ConsoleUI {
 
         switch (choice) {
             case (1):
+                clearScreen();
                 System.out.println(log);
                 transactionLogMenu(log, budget);
                 break;
             case (2):
+                clearScreen();
                 System.out.println(budget);
                 System.out.print("Выберете счёт: "); 
                 int accountPos = Integer.parseInt(reader.readLine()) - 1;
                 log.createTransaction(budget.getBankAccount(accountPos));
+                clearScreen();
                 transactionLogMenu(log, budget);
                 break;
             case (3):
+                clearScreen();
                 log.deleteTransaction(budget.getBankAccounts());
+                clearScreen();
                 transactionLogMenu(log, budget);
                 break;
             case 4:
+                clearScreen();
                 findTransactionMenu(log);
                 transactionLogMenu(log, budget);
                 break;
@@ -126,6 +143,7 @@ public class ConsoleUI {
     }
 
     public void findTransactionMenu(TransactionLogClient log) throws IOException {
+        clearScreen();
         TransactionQuery query = null;
         boolean stopCreateQuery = false;
         String queryChoice = "\n1) Дата\n2) Контрагент\n3) Группа\n4) Закончить формирование запроса";
@@ -171,9 +189,15 @@ public class ConsoleUI {
         }
 
         List<BankTransactionClient> resultOfSearch = log.find(query);
-        System.out.println("Результаты поиска: ");
+        System.out.println("\nРезультаты поиска: ");
         for (var transaction : resultOfSearch) {
-            System.out.println(transaction + "\n");
+            System.out.print(transaction + "\n");
         }
+
+    }
+
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }

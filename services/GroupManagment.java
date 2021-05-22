@@ -1,15 +1,14 @@
 package services;
 
-import java.util.ArrayList;
 import java.util.List;
 import models.Group;
 import services.repositories.Repository;
 
 public class GroupManagment implements GroupManagmentClient {
     private List<Group> groupList;
-    private Repository groupRepo;
+    private Repository<Group> groupRepo;
 
-    public GroupManagment(Repository groupRepo) {
+    public GroupManagment(Repository<Group> groupRepo) {
         this.groupRepo = groupRepo;
         groupRepo.connect();
         this.groupList = groupRepo.getAll();

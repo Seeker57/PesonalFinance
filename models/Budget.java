@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +15,9 @@ public class Budget implements BudgetClient {
     private int hashPin;
     private List<BankAccountClient> accounts;
     private TransactionLogClient transactionLog;
-    private Repository accountRepo;
+    private Repository<BankAccountClient> accountRepo;
 
-    public Budget(String name, int hashPin, TransactionLogClient transactionLog, Repository accountRepo) {
+    public Budget(String name, int hashPin, TransactionLogClient transactionLog, Repository<BankAccountClient> accountRepo) {
         this.name = name;
         this.hashPin = hashPin;
         this.transactionLog = transactionLog;
@@ -94,14 +93,20 @@ public class Budget implements BudgetClient {
 
         try {
             System.out.print("Введите счет снятия: ");
-            int accPosFrom = Integer.parseInt(reader.readLine());
+            int accPosFrom = Integer.parseInt(reader.readLine()) - 1;
             System.out.print("Введите счет пополнения: ");
-            int accPosTo = Integer.parseInt(reader.readLine());
+            int accPosTo = Integer.parseInt(reader.readLine()) - 1;
             System.out.print("Введите сумму: ");
-            BigDecimal amount = new BigDecimal(Integer.parseInt(reader.readLine()));
+            BigDecimal amount = new BigDecimal(Double.parseDouble(reader.readLine()));
 
             accounts.get(accPosFrom).changeBalance(amount.negate());
             accounts.get(accPosTo).changeBalance(amount);
+            BankTransactionClient newTransactionTo = new BankTransaction(amount, new Date(), "Me", "Transfer", 
+                accounts.get(accPosTo).getNumber());
+            BankTransactionClient newTransactionFrom = new BankTransaction(amount.negate(), new Date(), "Me", "Transfer", 
+                accounts.get(accPosFrom).getNumber());
+            transactionLog.addTransaction(newTransactionTo);
+            transactionLog.addTransaction(newTransactionFrom);
         }
         catch (IOException exception) {
             System.out.println(exception.getMessage());

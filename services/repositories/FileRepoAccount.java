@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 
 import models.BankAccount;
@@ -23,8 +22,8 @@ public class FileRepoAccount extends FileRepository<BankAccountClient> {
     public void save(BankAccountClient account) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMM YYYY", Locale.ENGLISH);
         String saveInfo = String.format("{\n\tAccount: %s,\n\tbudgetName: %s,\n", account.getNumber(), account.getBudgetName()) +
-            String.format("\towner: %s,\n\tvalidDate: %s,\n\tbank: %s,\n\tbalance: %s \n}\n", account.getOwner(), 
-            formatter.format(account.getValidDate()), account.getNameOfBank(), account.getBalance().toString());
+            String.format("\towner: %s,\n\tvalidDate: %s,\n\tbank: %s \n}\n", account.getOwner(), 
+            formatter.format(account.getValidDate()), account.getNameOfBank());
         writeInFile(saveInfo);
     }
 
@@ -58,11 +57,8 @@ public class FileRepoAccount extends FileRepository<BankAccountClient> {
                     date = date.substring(date.indexOf(':') + 2, date.length() - 1);
                     String bank = cursor.readLine();
                     bank = bank.substring(bank.indexOf(':') + 2, bank.length() - 1);
-                    String balance = cursor.readLine();
-                    balance = balance.substring(balance.indexOf(':') + 2, balance.length() - 1);
 
                     BankAccountClient newAccount = new BankAccount(budgetName, number, owner, new Date(date), bank);
-                    newAccount.changeBalance(new BigDecimal(balance));
                     accounts.add(newAccount);
                 }
                 cursor.readLine();

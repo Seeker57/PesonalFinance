@@ -12,6 +12,6 @@ public class GroupQuery implements TransactionQuery {
     }
 
     public boolean match(BankTransactionClient transaction) {
-        return transaction.getGroup().equals(group);
+        return transaction.getGroup().equals(group.getName());
     }
 }

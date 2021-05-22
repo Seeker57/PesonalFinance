@@ -11,6 +11,7 @@ public interface TransactionLogClient {
     public void deleteTransaction(List<BankAccountClient> accounts);
     public List<BankTransactionClient> find(TransactionQuery query);
     public void setBalance(BudgetClient budget);
+    public void addTransaction(BankTransactionClient transaction);
     public BankTransactionClient getTransaction(int pos);
     public GroupManagmentClient getGroupManagment();
     public String toString();

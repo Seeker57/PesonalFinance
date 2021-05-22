@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import models.BankAccountClient;
 import models.BankTransaction;
 import models.BankTransactionClient;
 
@@ -61,7 +60,7 @@ public class FileRepoTransaction extends FileRepository<BankTransactionClient> {
                     String group = cursor.readLine();
                     group = group.substring(group.indexOf(':') + 2, group.length() - 1);
 
-                    BankTransactionClient newTransaction = new BankTransaction(new BigDecimal(amount), 
+                    BankTransactionClient newTransaction = new BankTransaction(BigDecimal.valueOf(Double.parseDouble(amount)), 
                         new Date(date), counterparty, group, number);
                     transactions.add(newTransaction);
                 }

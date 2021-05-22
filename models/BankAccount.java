@@ -19,7 +19,7 @@ public class BankAccount implements BankAccountClient {
         this.owner = owner;
         this.validUntil = validUntil;
         this.nameOfBank = nameOfBank;
-        this.balance = new BigDecimal(0);
+        this.balance = BigDecimal.valueOf(0.0);
     }
 
     public BigDecimal getBalance() {

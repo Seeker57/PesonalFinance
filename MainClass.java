@@ -8,6 +8,7 @@ public class MainClass {
 
         try {
             ConsoleUI myUI = new ConsoleUI(new PersonalFinance());
+            myUI.clearScreen();
             myUI.mainMenu();
         }
         catch (IOException exception) {

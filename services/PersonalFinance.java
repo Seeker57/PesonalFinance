@@ -3,7 +3,6 @@ package services;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import models.Budget;
@@ -19,7 +18,7 @@ import services.repositories.FileRepoTransaction;
 // класс Персональные финансы, хранящий бюджеты
 public class PersonalFinance implements PersonalFinanceClient {
     private List<BudgetClient> budgets;
-    private Repository budgetRepo;
+    private Repository<BudgetClient> budgetRepo;
 
     public static final String FILE_GROUPS = "data\\groups.txt";
     public static final String FILE_BUDGETS = "data\\budgets.txt";
@@ -93,7 +92,7 @@ public class PersonalFinance implements PersonalFinanceClient {
                 if (pin.hashCode() == choosedBudget.getHashPin()) {
                     return choosedBudget;
                 } else {
-                    System.out.println("Неверный пин-код!\n");
+                    System.out.println("\nНеверный пин-код!");
                 }
             }
         }
