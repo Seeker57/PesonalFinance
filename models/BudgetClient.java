@@ -14,5 +14,6 @@ public interface BudgetClient {
     public List<BankAccountClient> getBankAccounts();
     public int howAccounts();
     public void transferBetweenAccount();
+    public void disconnectRepo();
     public String toString();
 }

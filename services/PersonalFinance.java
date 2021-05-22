@@ -1,6 +1,7 @@
 package services;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.List;
@@ -64,9 +65,16 @@ public class PersonalFinance implements PersonalFinanceClient {
                 System.out.print("Введите 4-значный пин-код: ");
                 String pin = reader.readLine();
 
-                if (pin.hashCode() == budgets.get(budgetPos).getHashPin()) {
+                BudgetClient deletedBudget = budgets.get(budgetPos);
+                if (pin.hashCode() == deletedBudget.getHashPin()) {
                     budgetRepo.delete(budgetPos);
                     budgets.remove(budgetPos);
+
+                    deletedBudget.disconnectRepo();
+                    File accountsFile = new File(FILE_ACCOUTNS + deletedBudget.getName() + ".txt");
+                    accountsFile.delete();
+                    File transactionFile = new File(FILE_TRANSACTIONS + deletedBudget.getName() + ".txt");
+                    transactionFile.delete();
                 }
             }
         }

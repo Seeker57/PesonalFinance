@@ -24,9 +24,6 @@ public abstract class FileRepository<T> implements Repository<T> {
         catch (FileNotFoundException exception) {
             System.out.println(exception.getMessage());
         }
-        catch (IOException exception) {
-            System.out.println(exception.getMessage());
-        }
     }
 
     public void disconnect() {
@@ -52,8 +49,45 @@ public abstract class FileRepository<T> implements Repository<T> {
         return cursor;
     }
 
+    public void delete(int id) {
+        try {
+            RandomAccessFile cursor = getCursor();
+            cursor.seek(0);
+            String newFile = "";
+            int newLength = 0;
+            int currentPos = 0;
+
+            while (cursor.getFilePointer() != cursor.length()) {
+                String strFile = cursor.readLine();
+
+                if (strFile.equals("{")) {
+                    if (currentPos == id) {
+                        while (!strFile.equals("}")) {
+                            strFile = cursor.readLine();
+                        }
+                    } else {
+                        newFile += strFile + "\n";
+                        newLength += strFile.length() + 1;
+                        while (!strFile.equals("}")) {
+                            strFile = cursor.readLine();
+                            newFile += strFile + "\n";
+                            newLength += strFile.length() + 1;
+                        }
+                    }
+                    currentPos++;
+                }
+            }
+
+            cursor.seek(0);
+            cursor.writeBytes(newFile);
+            cursor.setLength(newLength);
+        }
+        catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+
     public abstract void save(T object);
-    public abstract void delete(int id);
     public abstract T get(int id);
     public abstract List<T> getAll();
 

@@ -100,7 +100,7 @@ public class ConsoleUI {
 
     public void transactionLogMenu(TransactionLogClient log, BudgetClient budget) throws IOException {
         String logMenu = "\n1) Посмотреть все транзакции\n2) Добавить транзакцию\n" +
-            "3) Удалить транзакцию\n4) Поиск транзакций\n5) Вернуться к меню бюджета";
+            "3) Удалить транзакцию\n4) Посмотреть расходы\n5) Посмотреть доходы\n6) Поиск транзакций\n7) Вернуться к меню бюджета";
         System.out.println(logMenu);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -128,12 +128,30 @@ public class ConsoleUI {
                 clearScreen();
                 transactionLogMenu(log, budget);
                 break;
-            case 4:
+            case (5):
+                clearScreen();
+                List<BankTransactionClient> incomes = log.getIncomes();
+                System.out.println("\nРезультаты поиска: ");
+                for (var transaction : incomes) {
+                    System.out.print(transaction + "\n");
+                }
+                transactionLogMenu(log, budget);
+                break;
+            case (4):
+                clearScreen();
+                List<BankTransactionClient> expenses = log.getExpences();
+                System.out.println("\nРезультаты поиска: ");
+                for (var transaction : expenses) {
+                    System.out.print(transaction + "\n");
+                }
+                transactionLogMenu(log, budget);
+                break;
+            case (6):
                 clearScreen();
                 findTransactionMenu(log);
                 transactionLogMenu(log, budget);
                 break;
-            case (5):
+            case (7):
                 budgetMenu(budget);
                 break;
             default:
@@ -142,6 +160,7 @@ public class ConsoleUI {
         }
     }
 
+    @Deprecated
     public void findTransactionMenu(TransactionLogClient log) throws IOException {
         clearScreen();
         TransactionQuery query = null;

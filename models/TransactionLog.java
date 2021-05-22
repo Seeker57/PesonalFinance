@@ -26,6 +26,7 @@ public class TransactionLog implements TransactionLogClient {
         this.transactionList = transactionRepo.getAll();
     }
 
+    @Deprecated
     public void createTransaction(BankAccountClient account) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -96,6 +97,26 @@ public class TransactionLog implements TransactionLogClient {
         return result;
     }
 
+    public List<BankTransactionClient> getIncomes() {
+        List<BankTransactionClient> result = new ArrayList<>();
+        for (var transaction : transactionList) {
+            if (transaction.getAmount().doubleValue() > 0) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
+
+    public List<BankTransactionClient> getExpences() {
+        List<BankTransactionClient> result = new ArrayList<>();
+        for (var transaction : transactionList) {
+            if (transaction.getAmount().doubleValue() < 0) {
+                result.add(transaction);
+            }
+        }
+        return result;
+    }
+
     public void setBalance(BudgetClient budget) {
         for (var transaction : transactionList) {
             BankAccountClient account = budget.getBankAccountOnNum(transaction.getAccount());
@@ -116,6 +137,10 @@ public class TransactionLog implements TransactionLogClient {
 
     public GroupManagmentClient getGroupManagment() {
         return groupManagment;
+    }
+
+    public void disconnectRepo() {
+        transactionRepo.disconnect();
     }
 
     public String toString() {

@@ -27,6 +27,7 @@ public class Budget implements BudgetClient {
         transactionLog.setBalance(this);
     }
 
+    @Deprecated
     public void addAccount() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -111,6 +112,11 @@ public class Budget implements BudgetClient {
         catch (IOException exception) {
             System.out.println(exception.getMessage());
         }
+    }
+
+    public void disconnectRepo() {
+        accountRepo.disconnect();
+        transactionLog.disconnectRepo();
     }
 
     public String toString() {

@@ -23,10 +23,6 @@ public class FileRepoGroup extends FileRepository<Group> {
     }
 
     @Override
-    public void delete(int id) {
-    }
-
-    @Override
     public Group get(int id) {
         return null;
     }

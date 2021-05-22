@@ -28,14 +28,11 @@ public class FileRepoAccount extends FileRepository<BankAccountClient> {
     }
 
     @Override
-    public void delete(int id) {
-    }
-
-    @Override
     public BankAccountClient get(int id) {
         return null;
     }
 
+    @Deprecated
     @Override
     public List<BankAccountClient> getAll() {
         try {

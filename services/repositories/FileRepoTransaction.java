@@ -30,14 +30,11 @@ public class FileRepoTransaction extends FileRepository<BankTransactionClient> {
     }
 
     @Override
-    public void delete(int id) {
-    }
-
-    @Override
     public BankTransactionClient get(int id) {
         return null;
     }
 
+    @Deprecated
     @Override
     public List<BankTransactionClient> getAll() {
         try {

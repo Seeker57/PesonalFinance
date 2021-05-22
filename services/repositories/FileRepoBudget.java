@@ -27,10 +27,6 @@ public class FileRepoBudget extends FileRepository<BudgetClient> {
     }
 
     @Override
-    public void delete(int id) {
-    }
-
-    @Override
     public BudgetClient get(int id) {
         return null;
     }
