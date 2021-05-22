@@ -109,7 +109,7 @@ public class ConsoleUI {
                 transactionLogMenu(log, budget);
                 break;
             case (3):
-                log.deleteTransaction();
+                log.deleteTransaction(budget.getBankAccounts());
                 transactionLogMenu(log, budget);
                 break;
             case 4:

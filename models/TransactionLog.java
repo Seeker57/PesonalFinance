@@ -20,10 +20,10 @@ public class TransactionLog implements TransactionLogClient {
     private Repository transactionRepo;
 
     public TransactionLog(GroupManagmentClient groupManagment, Repository transactionRepo) {
-        this.transactionList = new ArrayList<>();
         this.groupManagment = groupManagment;
         this.transactionRepo = transactionRepo;
         transactionRepo.connect();
+        this.transactionList = transactionRepo.getAll();
     }
 
     public void createTransaction(BankAccountClient account) {
@@ -49,7 +49,7 @@ public class TransactionLog implements TransactionLogClient {
             }
 
             BankTransactionClient newTransaction = new BankTransaction(new BigDecimal(amount), 
-                new Date(strDate), counterparty, newGroup, account);
+                new Date(strDate), counterparty, newGroup.getName(), account.getNumber());
 
             account.changeBalance(newTransaction.getAmount());
             transactionRepo.save(newTransaction);
@@ -60,7 +60,7 @@ public class TransactionLog implements TransactionLogClient {
         }
     }
 
-    public void deleteTransaction() {
+    public void deleteTransaction(List<BankAccountClient> accounts) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         try {
@@ -70,7 +70,13 @@ public class TransactionLog implements TransactionLogClient {
 
             if (choice != -1) {
                 var deletedTransaction = transactionList.get(choice);
-                deletedTransaction.getAccount().changeBalance(deletedTransaction.getAmount().negate());
+                String accountNum = deletedTransaction.getAccount();
+
+                for (var account : accounts) {
+                    if (account.getNumber().equals(accountNum)) {
+                        account.changeBalance(deletedTransaction.getAmount().negate());
+                    }
+                }
                 transactionRepo.delete(choice);
                 transactionList.remove(choice);
             }
@@ -88,6 +94,15 @@ public class TransactionLog implements TransactionLogClient {
             }
         }
         return result;
+    }
+
+    public void setBalance(BudgetClient budget) {
+        for (var transaction : transactionList) {
+            BankAccountClient account = budget.getBankAccountOnNum(transaction.getAccount());
+            if (account != null) {
+                account.changeBalance(transaction.getAmount());
+            }
+        }
     }
 
     public BankTransactionClient getTransaction(int pos) {

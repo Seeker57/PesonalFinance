@@ -8,7 +8,7 @@ public interface BankTransactionClient {
     public BigDecimal getAmount();
     public Date getDate();
     public String getCounterparty();
-    public Group getGroup();
-    public BankAccountClient getAccount();
+    public String getGroup();
+    public String getAccount();
     public String toString();
 }

@@ -8,10 +8,10 @@ public class BankTransaction implements BankTransactionClient {
     private BigDecimal amount; // сумма
     private Date date;
     private String counterparty; // контрагент - одна из сторон договора о транзакции 
-    private Group group;    
-    private BankAccountClient account;
+    private String group;    
+    private String account;
 
-    public BankTransaction(BigDecimal amount, Date date, String counterparty, Group group, BankAccountClient account) {
+    public BankTransaction(BigDecimal amount, Date date, String counterparty, String group, String account) {
         this.amount = amount;
         this.date = date;
         this.counterparty = counterparty;
@@ -31,16 +31,16 @@ public class BankTransaction implements BankTransactionClient {
         return counterparty;
     }
 
-    public Group getGroup() {
+    public String getGroup() {
         return group;
     }
 
-    public BankAccountClient getAccount() {
+    public String getAccount() {
         return account;
     }
 
     public String toString() {
         return String.format("Транзакция на сумму: %+d, совершена: %s со счёта №%s, контрагент: %s, категория: %s", 
-            amount.intValue(), date, account.getNumber(), counterparty, group.getName());
+            amount.intValue(), date, account, counterparty, group);
     }
 }

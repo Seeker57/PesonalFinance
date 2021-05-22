@@ -21,10 +21,11 @@ public class Budget implements BudgetClient {
     public Budget(String name, int hashPin, TransactionLogClient transactionLog, Repository accountRepo) {
         this.name = name;
         this.hashPin = hashPin;
-        this.accounts = new ArrayList<>();
         this.transactionLog = transactionLog;
         this.accountRepo = accountRepo;
         accountRepo.connect();
+        this.accounts = accountRepo.getAll();
+        transactionLog.setBalance(this);
     }
 
     public void addAccount() {
@@ -67,6 +68,20 @@ public class Budget implements BudgetClient {
 
     public BankAccountClient getBankAccount(int accountPos) {
         return accounts.get(accountPos);
+    }
+
+    public BankAccountClient getBankAccountOnNum(String num) {
+        BankAccountClient searchAccount = null;
+        for (var account : accounts) {
+            if (account.getNumber().equals(num)) {
+                searchAccount = account;
+            }
+        }
+        return searchAccount;
+    }
+
+    public List<BankAccountClient> getBankAccounts() {
+        return accounts;
     }
 
     public int howAccounts() {

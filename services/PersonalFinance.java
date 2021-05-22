@@ -21,15 +21,15 @@ public class PersonalFinance implements PersonalFinanceClient {
     private List<BudgetClient> budgets;
     private Repository budgetRepo;
 
-    private final String FILE_GROUPS = "data\\groups.txt";
-    private final String FILE_BUDGETS = "data\\budgets.txt";
-    private final String FILE_ACCOUTNS = "data\\accounts.txt";
-    private final String FILE_TRANSACTIONS = "data\\transactions.txt";
+    public static final String FILE_GROUPS = "data\\groups.txt";
+    public static final String FILE_BUDGETS = "data\\budgets.txt";
+    public static final String FILE_ACCOUTNS = "data\\accounts_";
+    public static final String FILE_TRANSACTIONS = "data\\transactions_";
 
     public PersonalFinance() {
-        this.budgets = new ArrayList<>();
         this.budgetRepo = new FileRepoBudget(FILE_BUDGETS);
-        budgetRepo.connect();
+        this.budgetRepo.connect();
+        this.budgets = budgetRepo.getAll();
     }
 
     public void createBudget() {
@@ -42,9 +42,9 @@ public class PersonalFinance implements PersonalFinanceClient {
             String pin = reader.readLine();
 
             GroupManagmentClient grpManage = new GroupManagment(new FileRepoGroup(FILE_GROUPS));
-            TransactionLogClient log = new TransactionLog(grpManage, new FileRepoTransaction(FILE_TRANSACTIONS));
+            TransactionLogClient log = new TransactionLog(grpManage, new FileRepoTransaction(FILE_TRANSACTIONS + name + ".txt"));
 
-            BudgetClient newBudget = new Budget(name, pin.hashCode(), log, new FileRepoAccount(FILE_ACCOUTNS));
+            BudgetClient newBudget = new Budget(name, pin.hashCode(), log, new FileRepoAccount(FILE_ACCOUTNS + name + ".txt"));
             budgetRepo.save(newBudget);
             budgets.add(newBudget);
         }

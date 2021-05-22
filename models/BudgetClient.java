@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 // интерфейс Бюджета
 public interface BudgetClient {
     public String seeBalance(int accountPos);
@@ -8,6 +10,8 @@ public interface BudgetClient {
     public void addAccount();
     public TransactionLogClient getTransactionLog();
     public BankAccountClient getBankAccount(int accountPos);
+    public BankAccountClient getBankAccountOnNum(String num);
+    public List<BankAccountClient> getBankAccounts();
     public int howAccounts();
     public void transferBetweenAccount();
     public String toString();

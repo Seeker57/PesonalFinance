@@ -17,7 +17,7 @@ public class FileRepoGroup extends FileRepository<Group> {
 
     @Override
     public void save(Group group) {
-        String saveInfo = String.format("{\n\tGroup: %s,\n\tdescription: %s,\n}\n", 
+        String saveInfo = String.format("{\n\tGroup: %s,\n\tdescription: %s \n}\n", 
             group.getName(), group.getDescription());
         writeInFile(saveInfo);
     }
@@ -50,8 +50,6 @@ public class FileRepoGroup extends FileRepository<Group> {
                 }
                 cursor.readLine();
             }
-
-            System.out.println(groups);
             return groups;
         }
         catch (IOException exception) {
