@@ -3,16 +3,17 @@ import java.util.List;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 
 import models.BudgetClient;
 import models.BankTransactionClient;
 import models.TransactionLogClient;
 import services.PersonalFinanceClient;
-import services.transactrionQuery.And;
-import services.transactrionQuery.CounterpartyQuery;
-import services.transactrionQuery.DateQuery;
-import services.transactrionQuery.GroupQuery;
-import services.transactrionQuery.TransactionQuery;
+import services.transactionQuery.And;
+import services.transactionQuery.CounterpartyQuery;
+import services.transactionQuery.DateQuery;
+import services.transactionQuery.GroupQuery;
+import services.transactionQuery.TransactionQuery;
 
 public class ConsoleUI {
     private PersonalFinanceClient finance;    
@@ -29,25 +30,46 @@ public class ConsoleUI {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Введите цифру: ");
         int choice = Integer.parseInt(reader.readLine());
+        int budgetPos = -1;
+        String pin = "";
 
         switch (choice) {
             case (1):
                 clearScreen();
-                finance.createBudget();
+                System.out.print("Введите название бюджета: ");
+                String name = reader.readLine();
+                System.out.print("Введите 4-значный пин-код: ");
+                pin = reader.readLine();
+
+                finance.createBudget(name, pin);
                 clearScreen();
                 mainMenu();
                 break;
             case (2):
                 clearScreen();
-                BudgetClient budget = finance.chooseBudget();
+                System.out.println(finance);
+                System.out.print("Введите id бюджета, который хотите удалить или 0 для выхода: ");
+                budgetPos = Integer.parseInt(reader.readLine()) - 1;
+                System.out.print("Введите 4-значный пин-код: ");
+                pin = reader.readLine();
+
+                BudgetClient budget = finance.chooseBudget(budgetPos, pin);
                 if (budget != null) {
                     budgetMenu(budget);
+                } else {
+                    System.out.println("\nНевверный номер бюджета или пин-код!");
                 }
                 mainMenu();
                 break;
             case (3):
                 clearScreen();
-                finance.deleteBudget();
+                System.out.println(finance);
+                System.out.print("Введите id бюджета, который хотите удалить или 0 для выхода: ");
+                budgetPos = Integer.parseInt(reader.readLine()) - 1;
+                System.out.print("Введите 4-значный пин-код: ");
+                pin = reader.readLine();
+                
+                finance.deleteBudget(budgetPos, pin);
                 clearScreen();
                 mainMenu();
                 break;
@@ -75,7 +97,16 @@ public class ConsoleUI {
         switch (choice) {
             case (1):
                 clearScreen();
-                budget.addAccount();
+                System.out.print("Введите номер счёта: ");
+                String num = reader.readLine();
+                System.out.print("Введите ФИО владельца: ");
+                String owner = reader.readLine();
+                System.out.print("Введите название банка: ");
+                String nameOfBank = reader.readLine();
+                System.out.print("Введите дату, до которой действителен счёт: ");
+                String strDate = reader.readLine();
+
+                budget.addAccount(num, owner, nameOfBank, strDate);
                 budgetMenu(budget);
                 break;
             case (2):
@@ -85,7 +116,15 @@ public class ConsoleUI {
                 break;
             case (3):
                 clearScreen();
-                budget.transferBetweenAccount();
+                System.out.println(budget);
+                System.out.print("Введите счет снятия: ");
+                int accPosFrom = Integer.parseInt(reader.readLine()) - 1;
+                System.out.print("Введите счет пополнения: ");
+                int accPosTo = Integer.parseInt(reader.readLine()) - 1;
+                System.out.print("Введите сумму: ");
+                BigDecimal amount = new BigDecimal(Double.parseDouble(reader.readLine()));
+
+                budget.transferBetweenAccount(accPosTo, accPosFrom, amount);
                 budgetMenu(budget);
                 break;
             case (4):
@@ -118,13 +157,28 @@ public class ConsoleUI {
                 System.out.println(budget);
                 System.out.print("Выберете счёт: "); 
                 int accountPos = Integer.parseInt(reader.readLine()) - 1;
-                log.createTransaction(budget.getBankAccount(accountPos));
+
+                System.out.print("Введите сумму: ");
+                double amount = Double.parseDouble(reader.readLine());
+                System.out.print("Введите дату и время: ");
+                String strDate = reader.readLine();
+                System.out.print("Введите контрагента: ");
+                String counterparty = reader.readLine();
+
+                System.out.println(log.getGroupManagment().toString());
+                System.out.print("Введите номер категории или 0, чтобы создать новую: ");
+                int numGroup = Integer.parseInt(reader.readLine());
+                log.createTransaction(budget.getBankAccount(accountPos), amount, strDate, counterparty, numGroup);
                 clearScreen();
                 transactionLogMenu(log, budget);
                 break;
             case (3):
                 clearScreen();
-                log.deleteTransaction(budget.getBankAccounts());
+                System.out.println(log);
+                System.out.print("Введите номер транзакции для удаления или 0 для выхода: ");
+                int transactionPos = Integer.parseInt(reader.readLine()) - 1;
+
+                log.deleteTransaction(budget.getBankAccounts(), transactionPos);
                 clearScreen();
                 transactionLogMenu(log, budget);
                 break;

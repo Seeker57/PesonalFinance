@@ -1,14 +1,16 @@
 package models;
 
+import java.io.IOException;
 import java.util.List;
 
 import services.GroupManagmentClient;
-import services.transactrionQuery.TransactionQuery;
+import services.transactionQuery.TransactionQuery;
 
 // интерфейс для Журнала транзакций
 public interface TransactionLogClient {
-    public void createTransaction(BankAccountClient account);
-    public void deleteTransaction(List<BankAccountClient> accounts);
+    public void createTransaction(BankAccountClient account, double amount, String strDate, 
+        String counterparty, int numGroup) throws IOException;
+    public void deleteTransaction(List<BankAccountClient> accounts, int transactionPos);
     public List<BankTransactionClient> find(TransactionQuery query);
     public List<BankTransactionClient> getIncomes();
     public List<BankTransactionClient> getExpences();

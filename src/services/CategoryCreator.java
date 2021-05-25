@@ -9,19 +9,14 @@ import java.io.InputStreamReader;
 // класс для создания категорий
 public class CategoryCreator extends GroupCreator {
     @Override
-    public Group factoryMethod() {
+    public Group factoryMethod() throws IOException {
         String name = "", description = "";
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        try {
-            System.out.print("Введите название категории: ");
-            name = reader.readLine();
-            System.out.print("Введите описание категории: ");
-            description = reader.readLine();
-        }
-        catch (IOException exception) {
-            System.out.println(exception.getMessage());
-        }
+        System.out.print("Введите название категории: ");
+        name = reader.readLine();
+        System.out.print("Введите описание категории: ");
+        description = reader.readLine();
 
         return new Category(name, description);
     }

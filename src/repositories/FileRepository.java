@@ -1,4 +1,4 @@
-package services.repositories;
+package repositories;
 
 import java.io.File;
 import java.util.List;
@@ -89,6 +89,6 @@ public abstract class FileRepository<T> implements Repository<T> {
 
     public abstract void save(T object);
     public abstract T get(int id);
-    public abstract List<T> getAll();
+    public abstract List<T> getAll() throws IOException;
 
 }

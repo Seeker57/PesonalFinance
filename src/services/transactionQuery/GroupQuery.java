@@ -1,4 +1,4 @@
-package services.transactrionQuery;
+package services.transactionQuery;
 
 import models.Group;
 import models.BankTransactionClient;
